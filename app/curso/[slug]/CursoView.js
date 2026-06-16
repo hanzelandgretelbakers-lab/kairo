@@ -22,8 +22,8 @@ function CTAButton({ p, lang }) {
 
 export default function CursoView({ slug }) {
   const [lang, setLang] = useState("es");
-  useEffect(() => { setLang(detectLang()); }, []);
-  function toggle() { const n = lang === "es" ? "en" : "es"; saveLang(n); setLang(n); }
+  useEffect(() => { const d=detectLang(); setLang(d); try{document.documentElement.lang=d;}catch(e){} }, []);
+  function toggle() { const n = lang === "es" ? "en" : "es"; saveLang(n); setLang(n); try{document.documentElement.lang=n;}catch(e){} }
 
   const p = getPaquete(slug);
   const t = UI[lang];

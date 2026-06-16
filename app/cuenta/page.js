@@ -17,11 +17,11 @@ export default function Cuenta() {
   const [ready, setReady] = useState(false);
   const [lang, setLang] = useState("es");
   useEffect(() => {
-    setLang(detectLang());
+    const d=detectLang(); setLang(d); try{document.documentElement.lang=d;}catch(e){}
     supabase.auth.getUser().then(({ data }) => { setUser(data.user); setReady(true); });
   }, []);
   const t = UI[lang];
-  function toggle() { const n = lang === "es" ? "en" : "es"; saveLang(n); setLang(n); }
+  function toggle() { const n = lang === "es" ? "en" : "es"; saveLang(n); setLang(n); try{document.documentElement.lang=n;}catch(e){} }
   async function salir() { await supabase.auth.signOut(); location.reload(); }
   async function entrar() {
     await supabase.auth.signInWithOAuth({ provider: "google", options: { redirectTo: (process.env.NEXT_PUBLIC_SITE_URL || window.location.origin) + "/cuenta" } });

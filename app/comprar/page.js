@@ -20,9 +20,9 @@ function ComprarInner() {
   const [loading, setLoading] = useState("");
   const [aviso, setAviso] = useState(false);
   const [lang, setLang] = useState("es");
-  useEffect(() => { setLang(detectLang()); }, []);
+  useEffect(() => { const d=detectLang(); setLang(d); try{document.documentElement.lang=d;}catch(e){} }, []);
   const t = UI[lang];
-  function toggle() { const n = lang === "es" ? "en" : "es"; saveLang(n); setLang(n); }
+  function toggle() { const n = lang === "es" ? "en" : "es"; saveLang(n); setLang(n); try{document.documentElement.lang=n;}catch(e){} }
 
   const lista = planParam && getPaquete(planParam) ? [getPaquete(planParam)] : PAQUETES.filter((p) => COMPRABLES.includes(p.slug));
 

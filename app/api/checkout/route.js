@@ -4,8 +4,9 @@ import { stripe, PRICES } from "../../../lib/stripe";
 export async function POST(req) {
   try {
     const { plan } = await req.json();
+    if (!stripe) return NextResponse.json({ error: "Pagos en activacion" }, { status: 503 });
     const price = PRICES[plan];
-    if (!price) return NextResponse.json({ error: "Plan invalido" }, { status: 400 });
+    if (!price) return NextResponse.json({ error: "Plan no disponible todavia" }, { status: 400 });
     const site = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
     const mode = plan === "comunidad" ? "subscription" : "payment";
     const session = await stripe.checkout.sessions.create({
